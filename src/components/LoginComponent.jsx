@@ -4,19 +4,34 @@ import LinkedinLogo from "../assets/linkedinLogo.png";
 import { useNavigate } from "react-router-dom";
 import "../Sass/LoginComponent.scss";
 import { toast } from "react-toastify";
+import { getUsers } from "../utils/user/login";
 
 export default function LoginComponent() {
   let navigate = useNavigate();
   const [credentails, setCredentials] = useState({});
   const login = async () => {
     try {
-      let res = await LoginAPI(credentails.email, credentails.password);
-      toast.success("Signed In to Linkedin!");
-      localStorage.setItem("userEmail", res.user.email);
-      navigate("/home");
+      // let res = await LoginAPI(credentails.email, credentails.password);
+      // toast.success("Signed In to Linkedin!");
+      // localStorage.setItem("userEmail", res.user.email);
+      // navigate("/home");
+      const body = {
+        email: credentails["email"],
+        password: credentails["password"],
+        appType: "linkedIn",
+      };
+
+      const gettingUsers = await getUsers(body);
+      if (gettingUsers.status === 200) { 
+        toast.success("Signed In to Linkedin!");
+          navigate("/home");
+
+      } else {
+
+      }
     } catch (err) {
       console.log(err);
-      toast.error("Please Check your Credentials");
+     toast.error("Please Check your Credentials");
     }
   };
 
