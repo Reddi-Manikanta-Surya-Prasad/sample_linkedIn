@@ -22,16 +22,15 @@ export default function LoginComponent() {
       };
 
       const gettingUsers = await getUsers(body);
-      if (gettingUsers.status === 200) { 
+      if (gettingUsers.status === 200) {
         toast.success("Signed In to Linkedin!");
-          navigate("/home");
-
+        navigate("/home");
       } else {
-
+        toast.error("Please Check your Credentials");
       }
     } catch (err) {
       console.log(err);
-     toast.error("Please Check your Credentials");
+      toast.error("Please Check your Credentials");
     }
   };
 
