@@ -17,7 +17,7 @@ export default function RegisterComponent() {
         name:credentails["name"],
         email: credentails["email"],
         password: credentails["password"],
-        appType: "linkedIn",
+        appType: "linkedin",
       };
       const register= await registerAPI(body);
       if (register.status === 200) {

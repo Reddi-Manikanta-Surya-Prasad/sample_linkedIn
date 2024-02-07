@@ -18,12 +18,13 @@ export default function LoginComponent() {
       const body = {
         email: credentails["email"],
         password: credentails["password"],
-        appType: "linkedIn",
+        appType: "linkedin",
       };
 
       const gettingUsers = await getUsers(body);
       if (gettingUsers.status === 200) {
         toast.success("Signed In to Linkedin!");
+        localStorage.setItem("token" , token);
         navigate("/home");
       } else {
         toast.error("Please Check your Credentials");
