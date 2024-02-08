@@ -1,11 +1,12 @@
-import React, { useState, useMemo } from "react";
-import { postStatus, getStatus, updatePost } from "../../../api/FirestoreAPI";
+import React, { useState, useMemo, useEffect } from "react";
+// import { postStatus, getStatus, updatePost } from "../../../api/FirestoreAPI";
 import { getCurrentTimeStamp } from "../../../helpers/useMoment";
 import ModalComponent from "../Modal";
 import { uploadPostImage } from "../../../api/ImageUpload";
 import { getUniqueID } from "../../../helpers/getUniqueId";
 import PostsCard from "../PostsCard";
 import "./index.scss";
+import { fetchPost } from "../../../utils/user/post";
 
 export default function PostStatus({ currentUser }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -15,51 +16,34 @@ export default function PostStatus({ currentUser }) {
   const [isEdit, setIsEdit] = useState(false);
   const [postImage, setPostImage] = useState("");
 
-  const sendStatus = async () => {
-    let object = {
-      status: status,
-      timeStamp: getCurrentTimeStamp("LLL"),
-      userEmail: currentUser.email,
-      userName: currentUser.name,
-      postID: getUniqueID(),
-      userID: currentUser.id,
-      postImage: postImage,
-    };
-    await postStatus(object);
-    await setModalOpen(false);
-    setIsEdit(false);
-    await setStatus("");
-  };
-
-  const getEditData = (posts) => {
-    setModalOpen(true);
-    setStatus(posts?.status);
-    setCurrentPost(posts);
-    setIsEdit(true);
-  };
-
-  const updateStatus = () => {
-    updatePost(currentPost.id, status, postImage);
-    setModalOpen(false);
-  };
-
-  useMemo(() => {
-    getStatus(setAllStatus);
+  useEffect(() => {
+    fetchingPosts();
   }, []);
+
+  useEffect(() => {}, [currentUser]);
+
+  const fetchingPosts = async () => {
+    const posts = await fetchPost();
+    if (posts.status === 200) {
+      setAllStatus(posts.data.data);
+    }
+  };
 
   return (
     <div className="post-status-main">
       <div className="user-details">
-        <img src={currentUser?.imageLink} alt="imageLink" />
-        <p className="name">{currentUser?.name}</p>
-        <p className="headline">{currentUser?.headline}</p>
+        {/* <img src={currentUser?.imageLink} alt="imageLink" /> */}
+        <p className="name">
+          {currentUser?.data?.name ? currentUser?.data?.name : "vinay"}
+        </p>
+        {/* <p className="headline">{currentUser?.data.headline}</p> */}
       </div>
       <div className="post-status">
-        <img
+        {/* <img
           className="post-image"
           src={currentUser?.imageLink}
           alt="imageLink"
-        />
+        /> */}
         <button
           className="open-post-modal"
           onClick={() => {
@@ -71,29 +55,34 @@ export default function PostStatus({ currentUser }) {
         </button>
       </div>
 
-      <ModalComponent
-        setStatus={setStatus}
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-        status={status}
-        sendStatus={sendStatus}
-        isEdit={isEdit}
-        updateStatus={updateStatus}
-        uploadPostImage={uploadPostImage}
-        postImage={postImage}
-        setPostImage={setPostImage}
-        setCurrentPost={setCurrentPost}
-        currentPost={currentPost}
-      />
+      {modalOpen ? (
+        <ModalComponent
+          // setStatus={setStatus}
+          modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
+          // status={status}
+          // sendStatus={sendStatus}
+          // isEdit={isEdit}
+          // updateStatus={updateStatus}
+          // uploadPostImage={uploadPostImage}
+          // postImage={postImage}
+          // setPostImage={setPostImage}
+          // setCurrentPost={setCurrentPost}
+          // currentPost={currentPost}
+        />
+      ) : null}
 
       <div>
-        {allStatuses.map((posts) => {
+        {/* {allStatuses.map((posts) => {
+          {
+            console.log(posts);
+          }
           return (
             <div key={posts.id}>
               <PostsCard posts={posts} getEditData={getEditData} />
             </div>
           );
-        })}
+        })} */}
       </div>
     </div>
   );

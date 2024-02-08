@@ -14,19 +14,20 @@ import "./index.scss";
 export default function PostsCard({ posts, id, getEditData }) {
   let navigate = useNavigate();
   const [currentUser, setCurrentUser] = useState({});
-  console.log(currentUser.id)
   const [allUsers, setAllUsers] = useState([]);
   const [imageModal, setImageModal] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
-  useMemo(() => {
-    getCurrentUser(setCurrentUser);
-    getAllUsers(setAllUsers);
-  }, []);
+  // useMemo(() => {
+  //   getCurrentUser(setCurrentUser);
+  //   getAllUsers(setAllUsers);
+  // }, []);
 
   useEffect(() => {
+    console.log(posts);
+    return;
     getConnections(currentUser.id, posts.userID, setIsConnected);
-  }, [currentUser.id, posts.userID]);
-  console.log(currentUser.id,posts.userID);
+  }, []);
+  console.log(posts, currentUser);
 
   return isConnected || currentUser.id === posts.userID ? (
     <div className="posts-card" key={id}>

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Button, Modal, Progress } from "antd";
+import { Button, Col, Form, Input, Modal, Progress, Row } from "antd";
 import { AiOutlinePicture } from "react-icons/ai";
 import ReactQuill from "react-quill";
 import "./index.scss";
+import TextArea from "antd/es/input/TextArea";
+import { createPost } from "../../../utils/user/post";
 
 const ModalComponent = ({
   modalOpen,
@@ -18,72 +20,51 @@ const ModalComponent = ({
   currentPost,
   setCurrentPost,
 }) => {
+  const [form] = Form.useForm();
   const [progress, setProgress] = useState(0);
+
+  const handlingPostCreate = async (values) => {
+    console.log(values);
+    const body = {
+      title: "postTitle01",
+      content: values["content"],
+      images: "postImage01",
+    };
+
+    const creatingPost = await createPost(body);
+    console.log(creatingPost);
+    // if(creatingPost.status ===) {
+  };
+
   return (
     <>
       <Modal
         title="Create a post"
-        centered
         open={modalOpen}
-        onOk={() => {
-          setStatus("");
-          setModalOpen(false);
-          setPostImage("");
-          setCurrentPost({});
-        }}
-        onCancel={() => {
-          setStatus("");
-          setModalOpen(false);
-          setPostImage("");
-          setCurrentPost({});
-        }}
-        footer={[
-          <Button
-            onClick={isEdit ? updateStatus : sendStatus}
-            key="submit"
-            type="primary"
-            disabled={status.length > 0 ? false : true}
-          >
-            {isEdit ? "Update" : "Post"}
-          </Button>,
-        ]}
+        onCancel={() => setModalOpen(false)}
+        footer={null}
       >
-        <div className="posts-body">
-          <ReactQuill
-            className="modal-input"
-            theme="snow"
-            value={status}
-            placeholder="Share Something Useful.."
-            onChange={setStatus}
-          />
-          {progress === 0 || progress === 100 ? (
-            <></>
-          ) : (
-            <div className="progress-bar">
-              <Progress type="circle" percent={progress} />
-            </div>
-          )}
-          {postImage?.length > 0 || currentPost?.postImage?.length ? (
-            <img
-              className="preview-image"
-              src={postImage || currentPost?.postImage}
-              alt="postImage"
-            />
-          ) : (
-            <></>
-          )}
-        </div>
-        <label for="pic-upload">
-          <AiOutlinePicture size={35} className="picture-icon" />
-        </label>
-        <input
-          id="pic-upload"
-          type={"file"}
-          hidden
-          onChange={(event) =>
-            uploadPostImage(event.target.files[0], setPostImage, setProgress)
-          }
-        />
+        <Form
+          form={form}
+          name="basic"
+          onFinish={handlingPostCreate}
+          autoComplete="off"
+        >
+          <Form.Item
+            name="content"
+            rules={[
+              {
+                required: true,
+                message: "Please write something to create post!",
+              },
+            ]}
+          >
+            <TextArea placeholder="What do you want to talk about?" />
+          </Form.Item>
+          <Button type="primary" htmlType="submit">
+            Post
+          </Button>
+        </Form>
       </Modal>
     </>
   );

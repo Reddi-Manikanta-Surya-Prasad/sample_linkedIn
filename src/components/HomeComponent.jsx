@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../Sass/HomeComponent.scss";
 import PostStatus from "./common/PostUpdate";
 
-export default function HomeComponent({ currentUser }) {
+export const HomeComponent = ({ currentUser }) => {
+  useEffect(() => {}, [currentUser]);
   return (
     <div className="home-component">
       <PostStatus currentUser={currentUser} />
     </div>
   );
-}
+};

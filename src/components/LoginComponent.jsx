@@ -11,10 +11,6 @@ export default function LoginComponent() {
   const [credentails, setCredentials] = useState({});
   const login = async () => {
     try {
-      // let res = await LoginAPI(credentails.email, credentails.password);
-      // toast.success("Signed In to Linkedin!");
-      // localStorage.setItem("userEmail", res.user.email);
-      // navigate("/home");
       const body = {
         email: credentails["email"],
         password: credentails["password"],
@@ -24,13 +20,13 @@ export default function LoginComponent() {
       const gettingUsers = await getUsers(body);
       if (gettingUsers.status === 200) {
         toast.success("Signed In to Linkedin!");
-        localStorage.setItem("token" , token);
+        console.log(gettingUsers);
+        localStorage.setItem("userData", JSON.stringify(gettingUsers.data));
         navigate("/home");
       } else {
         toast.error("Please Check your Credentials");
       }
     } catch (err) {
-      console.log(err);
       toast.error("Please Check your Credentials");
     }
   };

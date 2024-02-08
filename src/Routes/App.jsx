@@ -1,4 +1,10 @@
-import { BrowserRouter as Router,Routes,Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import HomeLayout from "../layouts/HomeLayout";
@@ -6,33 +12,45 @@ import ProfileLayout from "../layouts/ProfileLayout";
 import ConnectionLayout from "../layouts/ConnectionLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
 
-function App(){
-  return(
-  <div>
-    <ToastContainer/>
-    <Router>
-      <Routes>
-    <Route path="/"
+function App() {
+  const { Navigate } = useNavigate;
+  const [authenticated, setAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
 
-    element={<Login />}/>
-  
-  
-    <Route path= "/register"
-    element= {<Register />}/>
-  
-  
-    <Route path= "/home"
-    element= {<HomeLayout />}/>
-  
-    <Route path= "/profile"
-   element={<ProfileLayout/>}/>
-   <Route path="/connections"
-    element={<ConnectionLayout />}/>
-    </Routes>
-    </Router>
+  useEffect(() => {
+    const userData = JSON.parse(localStorage.getItem("userData")) || {};
+    if (userData) {
+      setAuthenticated(true);
+      setCurrentUser(userData);
+    } else {
+      Navigate("/login");
+    }
+  }, []);
+
+  useEffect(() => {}, [currentUser]);
+
+  return (
+    <div>
+      <ToastContainer />
+      <Router>
+        {authenticated === false ? (
+          <Routes>
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        ) : (
+          <Routes>
+            <Route path="/" element={<HomeLayout />} />
+            <Route path="/register" element={<Register />} />
+
+            <Route path="/profile" element={<ProfileLayout />} />
+            <Route path="/connections" element={<ConnectionLayout />} />
+          </Routes>
+        )}
+      </Router>
     </div>
-  )
+  );
 }
 export default App;
 // import {useEffect, useState} from 'react';
@@ -49,11 +67,11 @@ export default App;
 // import Hotelpayment from '../SmallComp/Hotelpayment';
 
 // function App() {
-  
+
 //   return (
 //   <div className="App">
 //     <ContextAllDataProvider>
-//     <Router> 
+//     <Router>
 
 //       <Routes>
 //         <Route path="/" element={<Navbar/>}>

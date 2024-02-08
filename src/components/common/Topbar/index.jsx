@@ -11,7 +11,7 @@ import {
 } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { BsBriefcase } from "react-icons/bs";
-import { getAllUsers } from "../../../api/FirestoreAPI";
+// import { getAllUsers } from "../../../api/FirestoreAPI";
 import ProfilePopup from "../ProfilePopup";
 import "./index.scss";
 
@@ -63,7 +63,7 @@ export default function Topbar({ currentUser }) {
   }, [searchInput]);
 
   useEffect(() => {
-    getAllUsers(setUsers);
+    // getAllUsers(setUsers);
   }, []);
   return (
     <div className="topbar-main">
@@ -91,7 +91,7 @@ export default function Topbar({ currentUser }) {
           <AiOutlineHome
             size={30}
             className="react-icon"
-            onClick={() => goToRoute("/home")}
+            onClick={() => goToRoute("/")}
           />
           <AiOutlineUserSwitch
             size={30}
@@ -118,9 +118,12 @@ export default function Topbar({ currentUser }) {
             <div className="search-inner">No Results Found..</div>
           ) : (
             filteredUsers.map((user) => (
-              <div className="search-inner" onClick={() => openUser(user)}>
-                <img src={user.imageLink} />
-                <p className="name">{user.name}</p>
+              <div
+                className="search-inner"
+                // onClick={() => openUser(user)}
+              >
+                {/* <img src={user.imageLink ? user.imageLink : null} /> */}
+                <p className="name">{currentUser.data.name}</p>
               </div>
             ))
           )}
