@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData")) || {};
-    if (userData) {
+    if (Object.keys(userData).length > 0) {
       setAuthenticated(true);
       setCurrentUser(userData);
     } else {
@@ -33,22 +33,28 @@ function App() {
 
   return (
     <div>
+      {console.log(authenticated)}
       <ToastContainer />
       <Router>
-        {authenticated === false ? (
-          <Routes>
-            <Route path="/login" element={<Login />} />
-          </Routes>
-        ) : (
-          <Routes>
-            <Route path="/" element={<HomeLayout />} />
-            <Route path="/register" element={<Register />} />
-
-            <Route path="/profile" element={<ProfileLayout />} />
-            <Route path="/connections" element={<ConnectionLayout />} />
-          </Routes>
-        )}
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<HomeLayout />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<ProfileLayout />} />
+          <Route path="/connections" element={<ConnectionLayout />} />
+        </Routes>
       </Router>
+      {/* <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          {authenticated !== false && (
+            <Route path="/" element={<HomeLayout />} />
+          )}
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<ProfileLayout />} />
+          <Route path="/connections" element={<ConnectionLayout />} />
+        </Routes>
+      </Router> */}
     </div>
   );
 }

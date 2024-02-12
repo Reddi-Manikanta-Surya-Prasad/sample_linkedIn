@@ -1,15 +1,16 @@
 import { ReusableAxios } from "../../components/CustomHook/ReusableAxios";
+
 const token = localStorage.getItem("userData");
 var tokenn = JSON.parse(token);
+
 export const createPost = async (body) => {
-  const url = "https://academics.newtonschool.co/api/v1/linkedIn/post/";
+  const url = "https://academics.newtonschool.co/api/v1/linkedin/post/";
 
   const headers = {
-    Authorisation: `Bearer ${tokenn["token"]}`,
+    Authorization: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
-    console.log(headers);
     const createPost = await ReusableAxios(url, "post", headers, body);
     return createPost;
   } catch (error) {
@@ -18,7 +19,7 @@ export const createPost = async (body) => {
   }
 };
 export const updatePost = async (body) => {
-  const url = "https://academics.newtonschool.co/api/v1/linkedIn/post/:postId";
+  const url = "https://academics.newtonschool.co/api/v1/linkedin/post/:postId";
 
   const headers = {
     Authorisation: `Bearer ${token}`,
@@ -33,7 +34,7 @@ export const updatePost = async (body) => {
   }
 };
 export const deletePost = async () => {
-  const url = "https://academics.newtonschool.co/api/v1/linkedIn/post/:postId";
+  const url = "https://academics.newtonschool.co/api/v1/linkedin/post/:postId";
 
   const headers = {
     Authorisation: `Bearer ${token}`,
@@ -49,7 +50,7 @@ export const deletePost = async () => {
 };
 export const fetchPost = async () => {
   const url =
-    "https://academics.newtonschool.co/api/v1/linkedIn/post?limit=100";
+    "https://academics.newtonschool.co/api/v1/linkedin/post?limit=100";
 
   const headers = {
     projectID: "i1dieevrt9g1",

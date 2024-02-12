@@ -2,12 +2,6 @@ import React, { useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Modal } from "antd";
 import { BsPencil, BsTrash } from "react-icons/bs";
-import {
-  getCurrentUser,
-  getAllUsers,
-  deletePost,
-  getConnections,
-} from "../../../api/FirestoreAPI";
 import LikeButton from "../LikeButton";
 import "./index.scss";
 
@@ -25,7 +19,6 @@ export default function PostsCard({ posts, id, getEditData }) {
   useEffect(() => {
     console.log(posts);
     return;
-    getConnections(currentUser.id, posts.userID, setIsConnected);
   }, []);
   console.log(posts, currentUser);
 

@@ -31,10 +31,18 @@ export default function PostStatus({ currentUser }) {
 
   return (
     <div className="post-status-main">
+      {console.log(currentUser)}
       <div className="user-details">
-        {/* <img src={currentUser?.imageLink} alt="imageLink" /> */}
+        <img
+          src={
+            currentUser?.data.profileImage
+              ? currentUser?.data.profileImage
+              : null
+          }
+          alt="imageLink"
+        />
         <p className="name">
-          {currentUser?.data?.name ? currentUser?.data?.name : "vinay"}
+          {currentUser?.data?.name ? currentUser?.data?.name : "Default User"}
         </p>
         {/* <p className="headline">{currentUser?.data.headline}</p> */}
       </div>

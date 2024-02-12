@@ -22,7 +22,7 @@ export default function LoginComponent() {
         toast.success("Signed In to Linkedin!");
         console.log(gettingUsers);
         localStorage.setItem("userData", JSON.stringify(gettingUsers.data));
-        navigate("/home");
+        navigate("/");
       } else {
         toast.error("Please Check your Credentials");
       }
