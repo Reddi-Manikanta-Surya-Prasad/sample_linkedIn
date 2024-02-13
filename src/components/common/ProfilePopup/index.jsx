@@ -1,31 +1,33 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { onLogout } from "../../../api/AuthAPI";
-import { getCurrentUser } from "../../../api/FirestoreAPI";
 import Button from "../Button";
 import "./index.scss";
 
-export default function ProfilePopup() {
+export default function ProfilePopup({ currentUser }) {
   let navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState({});
-  useMemo(() => {
-    getCurrentUser(setCurrentUser);
-  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("userData");
+    navigate("/login");
+  };
+
   return (
     <div className="popup-card">
-      <p className="name">{currentUser?.name}</p>
-      <p className="headline">{currentUser?.headline}</p>
+      <p className="name">{currentUser?.data?.name}</p>
+      {/* <p className="headline">{currentUser?.headline}</p> */}
       <Button
         title="View Profile"
-        onClick={() =>
-          navigate("/profile", {
-            state: {
-              id: currentUser?.id,
-            },
-          })
-        }
+        // onClick={() =>
+        //   navigate("/profile", {
+        //     state: {
+        //       id: currentUser?.data?._id,
+        //     },
+        //   })
+        // }
+        disabled={true}
       />
-      <Button title="Log out" onClick={onLogout} />
+      <Button title="Log out" onClick={handleLogout} disabled={false} />
     </div>
   );
 }

@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from "react";
-import { getSingleStatus, getSingleUser } from "../../../api/FirestoreAPI";
+// import { getSingleStatus, getSingleUser } from "../../../api/FirestoreAPI";
 import PostsCard from "../PostsCard";
 import { HiOutlinePencil } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
 import FileUploadModal from "../FileUploadModal";
-import { uploadImage as uploadImageAPI } from "../../../api/ImageUpload";
+// import { uploadImage as uploadImageAPI } from "../../../api/ImageUpload";
 import "./index.scss";
 
 export default function ProfileCard({ onEdit, currentUser }) {
@@ -27,7 +27,7 @@ export default function ProfileCard({ onEdit, currentUser }) {
       setCurrentImage
     );
   };
-  console.log(currentUser.id)
+  console.log(currentUser.id);
 
   useMemo(() => {
     if (location?.state?.id) {
@@ -48,11 +48,9 @@ export default function ProfileCard({ onEdit, currentUser }) {
         setModalOpen={setModalOpen}
         currentImage={currentImage}
         progress={progress}
-        
       />
       <div className="profile-card">
         {currentUser.id === location?.state?.id ? (
-          
           <div className="edit-btn">
             <HiOutlinePencil className="edit-icon" onClick={onEdit} />
           </div>

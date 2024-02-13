@@ -11,7 +11,7 @@ import { fetchPost } from "../../../utils/user/post";
 export default function PostStatus({ currentUser }) {
   const [modalOpen, setModalOpen] = useState(false);
   const [status, setStatus] = useState("");
-  const [allStatuses, setAllStatus] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
   const [currentPost, setCurrentPost] = useState({});
   const [isEdit, setIsEdit] = useState(false);
   const [postImage, setPostImage] = useState("");
@@ -25,18 +25,17 @@ export default function PostStatus({ currentUser }) {
   const fetchingPosts = async () => {
     const posts = await fetchPost();
     if (posts.status === 200) {
-      setAllStatus(posts.data.data);
+      setAllPosts(posts.data.data);
     }
   };
 
   return (
     <div className="post-status-main">
-      {console.log(currentUser)}
       <div className="user-details">
         <img
           src={
-            currentUser?.data.profileImage
-              ? currentUser?.data.profileImage
+            currentUser?.data?.profileImage
+              ? currentUser?.data?.profileImage
               : null
           }
           alt="imageLink"
@@ -68,6 +67,7 @@ export default function PostStatus({ currentUser }) {
           // setStatus={setStatus}
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
+          fetchingPosts={fetchingPosts}
           // status={status}
           // sendStatus={sendStatus}
           // isEdit={isEdit}
@@ -81,16 +81,17 @@ export default function PostStatus({ currentUser }) {
       ) : null}
 
       <div>
-        {/* {allStatuses.map((posts) => {
-          {
-            console.log(posts);
-          }
+        {allPosts.map((posts) => {
           return (
-            <div key={posts.id}>
-              <PostsCard posts={posts} getEditData={getEditData} />
+            <div key={posts._id}>
+              <PostsCard
+                posts={posts}
+                currentUser={currentUser}
+                // getEditData={getEditData}
+              />
             </div>
           );
-        })} */}
+        })}
       </div>
     </div>
   );

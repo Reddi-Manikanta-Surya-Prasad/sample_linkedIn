@@ -1,14 +1,16 @@
 import React, { useMemo, useState } from "react";
-import {
-  likePost,
-  getLikesByUser,
-  postComment,
-  getComments,
-} from "../../../api/FirestoreAPI";
+// import {
+//   likePost,
+//   getLikesByUser,
+//   postComment,
+//   getComments,
+// } from "../../../api/FirestoreAPI";
 import { getCurrentTimeStamp } from "../../../helpers/useMoment";
 import "./index.scss";
 import { AiOutlineHeart, AiFillHeart, AiOutlineComment } from "react-icons/ai";
 import { BsFillHandThumbsUpFill, BsHandThumbsUp } from "react-icons/bs";
+import { Button } from "antd";
+import { likeaPost } from "../../../utils/user/post";
 
 export default function LikeButton({ userId, postId, currentUser }) {
   const [likesCount, setLikesCount] = useState(0);
@@ -16,21 +18,28 @@ export default function LikeButton({ userId, postId, currentUser }) {
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
-  const handleLike = () => {
-    likePost(userId, postId, liked);
-  };
-  const getComment = (event) => {
-    setComment(event.target.value);
+
+  // const handleLike = () => {
+  //   likePost(userId, postId, liked);
+  // };
+  // const getComment = (event) => {
+  //   setComment(event.target.value);
+  // };
+
+  // const addComment = () => {
+  //   postComment(postId, comment, getCurrentTimeStamp("LLL"), currentUser?.name);
+  //   setComment("");
+  // };
+  // useMemo(() => {
+  // getLikesByUser(userId, postId, setLiked, setLikesCount);
+  // getComments(postId, setComments);
+  // }, [userId, postId]);
+
+  const handleLike = async (post_id) => {
+    const liked = await likeaPost(post_id);
+    console.log(liked);
   };
 
-  const addComment = () => {
-    postComment(postId, comment, getCurrentTimeStamp("LLL"), currentUser?.name);
-    setComment("");
-  };
-  useMemo(() => {
-    getLikesByUser(userId, postId, setLiked, setLikesCount);
-    getComments(postId, setComments);
-  }, [userId, postId]);
   return (
     <div className="like-container">
       <p>{likesCount} People Like this Post</p>
@@ -38,14 +47,23 @@ export default function LikeButton({ userId, postId, currentUser }) {
         <hr />
       </div>
       <div className="like-comment">
-        <div className="likes-comment-inner" onClick={handleLike}>
+        <div
+          className="likes-comment-inner"
+          // onClick={handleLike}
+        >
           {liked ? (
             <BsFillHandThumbsUpFill size={30} color="#0a66c2" />
           ) : (
-            <BsHandThumbsUp size={30} />
+            <Button type="" onClick={() => handleLike(postId)}>
+              <span
+                // className={liked ? "blue" : "black"}
+                style={{ fontSize: "25px" }}
+              >
+                <BsHandThumbsUp />
+                Like
+              </span>
+            </Button>
           )}
-
-          <p className={liked ? "blue" : "black"}>Like</p>
         </div>
         <div
           className="likes-comment-inner"
@@ -64,13 +82,16 @@ export default function LikeButton({ userId, postId, currentUser }) {
       {showCommentBox ? (
         <>
           <input
-            onChange={getComment}
+            // onChange={getComment}
             placeholder="Add a Comment"
             className="comment-input"
             name="comment"
             value={comment}
           />
-          <button className="add-comment-btn" onClick={addComment}>
+          <button
+            className="add-comment-btn"
+            // onClick={addComment}
+          >
             Add Comment
           </button>
 

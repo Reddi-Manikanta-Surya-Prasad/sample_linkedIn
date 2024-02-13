@@ -69,7 +69,7 @@ export default function Topbar({ currentUser }) {
     <div className="topbar-main">
       {popupVisible ? (
         <div className="popup-position">
-          <ProfilePopup />
+          <ProfilePopup currentUser={currentUser} />
         </div>
       ) : (
         <></>

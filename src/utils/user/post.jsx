@@ -22,7 +22,7 @@ export const updatePost = async (body) => {
   const url = "https://academics.newtonschool.co/api/v1/linkedin/post/:postId";
 
   const headers = {
-    Authorisation: `Bearer ${token}`,
+    Authorisation: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
@@ -37,7 +37,7 @@ export const deletePost = async () => {
   const url = "https://academics.newtonschool.co/api/v1/linkedin/post/:postId";
 
   const headers = {
-    Authorisation: `Bearer ${token}`,
+    Authorisation: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
@@ -49,8 +49,7 @@ export const deletePost = async () => {
   }
 };
 export const fetchPost = async () => {
-  const url =
-    "https://academics.newtonschool.co/api/v1/linkedin/post?limit=100";
+  const url = "https://academics.newtonschool.co/api/v1/linkedin/post?limit=20";
 
   const headers = {
     projectID: "i1dieevrt9g1",
@@ -63,11 +62,11 @@ export const fetchPost = async () => {
     return error;
   }
 };
-export const likeaPost = async () => {
-  const url = "https://academics.newtonschool.co/api/v1/linkedin/like/:postId";
+export const likeaPost = async (post_id) => {
+  const url = `https://academics.newtonschool.co/api/v1/linkedin/like/${post_id}`;
 
   const headers = {
-    Authorisation: `Bearer ${token}`,
+    Authorisation: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
@@ -83,7 +82,7 @@ export const fetchComments = async () => {
     "https://academics.newtonschool.co/api/v1/linkedin/post/:postId/comments";
 
   const headers = {
-    Authorisation: `Bearer ${token}`,
+    Authorisation: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
@@ -99,7 +98,7 @@ export const createComments = async () => {
     "https://academics.newtonschool.co/api/v1/linkedin/comment/:postId";
 
   const headers = {
-    Authorisation: `Bearer ${token}`,
+    Authorisation: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
@@ -115,7 +114,7 @@ export const deleteComments = async () => {
     "https://academics.newtonschool.co/api/v1/linkedin/comment/:commentId";
 
   const headers = {
-    Authorisation: `Bearer ${token}`,
+    Authorisation: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {

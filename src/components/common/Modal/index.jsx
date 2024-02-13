@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 const ModalComponent = ({
   modalOpen,
   setModalOpen,
+  fetchingPosts,
   sendStatus,
   setStatus,
   status,
@@ -41,6 +42,7 @@ const ModalComponent = ({
       form.resetFields();
       setImageUpload(null);
       setModalOpen(false);
+      fetchingPosts();
     } else {
       toast.error("Something went wrong");
     }
