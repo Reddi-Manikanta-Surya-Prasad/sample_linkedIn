@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { RegisterAPI } from "../api/AuthAPI";
-import { postUserData } from "../api/FirestoreAPI";
 import LinkedinLogo from "../assets/linkedinLogo.png";
 import { useNavigate } from "react-router-dom";
 import { getUniqueID } from "../helpers/getUniqueId";

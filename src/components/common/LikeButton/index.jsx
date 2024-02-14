@@ -1,16 +1,9 @@
 import React, { useMemo, useState } from "react";
-// import {
-//   likePost,
-//   getLikesByUser,
-//   postComment,
-//   getComments,
-// } from "../../../api/FirestoreAPI";
-import { getCurrentTimeStamp } from "../../../helpers/useMoment";
-import "./index.scss";
 import { AiOutlineHeart, AiFillHeart, AiOutlineComment } from "react-icons/ai";
 import { BsFillHandThumbsUpFill, BsHandThumbsUp } from "react-icons/bs";
 import { Button } from "antd";
 import { likeaPost } from "../../../utils/user/post";
+import "./index.scss";
 
 export default function LikeButton({ userId, postId, currentUser }) {
   const [likesCount, setLikesCount] = useState(0);
@@ -19,21 +12,7 @@ export default function LikeButton({ userId, postId, currentUser }) {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
 
-  // const handleLike = () => {
-  //   likePost(userId, postId, liked);
-  // };
-  // const getComment = (event) => {
-  //   setComment(event.target.value);
-  // };
-
-  // const addComment = () => {
-  //   postComment(postId, comment, getCurrentTimeStamp("LLL"), currentUser?.name);
-  //   setComment("");
-  // };
-  // useMemo(() => {
-  // getLikesByUser(userId, postId, setLiked, setLikesCount);
-  // getComments(postId, setComments);
-  // }, [userId, postId]);
+  
 
   const handleLike = async (post_id) => {
     const liked = await likeaPost(post_id);

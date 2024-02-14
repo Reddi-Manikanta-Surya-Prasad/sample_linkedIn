@@ -3,24 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { Button, Modal } from "antd";
 import { BsPencil, BsTrash } from "react-icons/bs";
 import LikeButton from "../LikeButton";
-import "./index.scss";
+import Carousel from "../Carousel";
 import { timeStampConversionToDateAndTime } from "../../../helpers/timeStampConversion";
+import "./index.scss";
 
 export default function PostsCard({
   posts,
-  id,
+  
   currentUser,
-  // , getEditData
+
 }) {
   let navigate = useNavigate();
-  // const [currentUser, setCurrentUser] = useState({});
+
   const [allUsers, setAllUsers] = useState([]);
   const [imageModal, setImageModal] = useState(false);
-  // const [isConnected, setIsConnected] = useState(false);
-  // useMemo(() => {
-  //   getCurrentUser(setCurrentUser);
-  //   getAllUsers(setAllUsers);
-  // }, []);
 
   useEffect(() => {
     console.log(posts);
@@ -29,7 +25,7 @@ export default function PostsCard({
   console.log(posts, currentUser);
 
   return (
-    // currentUser?.data?._id === posts?.author?._id ?
+
     <div className="posts-card" key={posts._id}>
       <div className="post-image-wrapper">
         {currentUser?.data?._id === posts?.author?._id ? (
@@ -72,9 +68,13 @@ export default function PostsCard({
           <p className="timestamp">
             {timeStampConversionToDateAndTime(posts.createdAt)}
           </p>
+          <p>{posts.content}</p>
+          {/* <div>
+          <Carousel(data={posts.images})/>
+          </div> */}
         </div>
       </div>
-      <p>{posts.content}</p>
+      
       {/* {posts.images.map((item) => {
         console.log(item)
             return (
