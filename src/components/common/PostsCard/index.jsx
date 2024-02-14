@@ -9,23 +9,21 @@ import "./index.scss";
 
 export default function PostsCard({
   posts,
-  
-  currentUser,
 
+  currentUser,
 }) {
   let navigate = useNavigate();
 
   const [allUsers, setAllUsers] = useState([]);
   const [imageModal, setImageModal] = useState(false);
 
-  useEffect(() => {
-    console.log(posts);
-    return;
-  }, []);
-  console.log(posts, currentUser);
+  // useEffect(() => {
+  //   console.log(posts);
+  //   return;
+  // }, []);
+  // console.log(posts, currentUser);
 
   return (
-
     <div className="posts-card" key={posts._id}>
       <div className="post-image-wrapper">
         {currentUser?.data?._id === posts?.author?._id ? (
@@ -69,12 +67,14 @@ export default function PostsCard({
             {timeStampConversionToDateAndTime(posts.createdAt)}
           </p>
           <p>{posts.content}</p>
-          {/* <div>
-          <Carousel(data={posts.images})/>
-          </div> */}
+          <div>
+            {posts.images !== null && posts.images.length > 0 ? (
+              <Carousel data={posts.images} />
+            ) : null}
+          </div>
         </div>
       </div>
-      
+
       {/* {posts.images.map((item) => {
         console.log(item)
             return (
