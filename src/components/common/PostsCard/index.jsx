@@ -91,11 +91,7 @@ export default function PostsCard({
         dangerouslySetInnerHTML={{ __html: posts.status }}
       ></p> */}
 
-      <LikeButton
-        userId={currentUser?.data?._id}
-        postId={posts._id}
-        currentUser={currentUser}
-      />
+      <LikeButton posts={posts} currentUser={currentUser} />
 
       <Modal
         centered

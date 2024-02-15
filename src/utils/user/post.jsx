@@ -19,10 +19,10 @@ export const createPost = async (body) => {
   }
 };
 export const updatePost = async (body) => {
-  const url = "https://academics.newtonschool.co/api/v1/linkedin/post/:postId";
+  const url = `https://academics.newtonschool.co/api/v1/linkedin/post/${body._id}`;
 
   const headers = {
-    Authorisation: `Bearer ${tokenn["token"]}`,
+    Authorization: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
@@ -37,7 +37,7 @@ export const deletePost = async () => {
   const url = "https://academics.newtonschool.co/api/v1/linkedin/post/:postId";
 
   const headers = {
-    Authorisation: `Bearer ${tokenn["token"]}`,
+    Authorization: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
@@ -66,7 +66,7 @@ export const likeaPost = async (post_id) => {
   const url = `https://academics.newtonschool.co/api/v1/linkedin/like/${post_id}`;
 
   const headers = {
-    Authorisation: `Bearer ${tokenn["token"]}`,
+    Authorization: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
@@ -77,12 +77,11 @@ export const likeaPost = async (post_id) => {
     return error;
   }
 };
-export const fetchComments = async () => {
-  const url =
-    "https://academics.newtonschool.co/api/v1/linkedin/post/:postId/comments";
+export const fetchComments = async (post_id) => {
+  const url = `https://academics.newtonschool.co/api/v1/linkedin/post/${post_id}/comments`;
 
   const headers = {
-    Authorisation: `Bearer ${tokenn["token"]}`,
+    Authorization: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
@@ -98,7 +97,7 @@ export const createComments = async () => {
     "https://academics.newtonschool.co/api/v1/linkedin/comment/:postId";
 
   const headers = {
-    Authorisation: `Bearer ${tokenn["token"]}`,
+    Authorization: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
@@ -114,7 +113,7 @@ export const deleteComments = async () => {
     "https://academics.newtonschool.co/api/v1/linkedin/comment/:commentId";
 
   const headers = {
-    Authorisation: `Bearer ${tokenn["token"]}`,
+    Authorization: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {

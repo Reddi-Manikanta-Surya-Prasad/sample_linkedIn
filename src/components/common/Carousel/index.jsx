@@ -19,7 +19,7 @@ function Carousel({ data }) {
       <div className="carousel HotelsResultCardsCarousalMainDiv flexja">
         {data?.map((item, idx) => {
           // if(ind)
-          console.log(item, idx);
+          // console.log(item, idx);
           return (
             <img
               src={item}

@@ -14,7 +14,6 @@ export default function PostStatus({ currentUser }) {
 
   const [isEdit, setIsEdit] = useState(false);
 
-
   useEffect(() => {
     fetchingPosts();
   }, []);
@@ -25,6 +24,18 @@ export default function PostStatus({ currentUser }) {
     const posts = await fetchPost();
     if (posts.status === 200) {
       setAllPosts(posts.data.data);
+    }
+  };
+
+  useEffect(() => {
+    handleFetchPostComments();
+  });
+
+  const handleFetchPostComments = async () => {
+    const comments = await fetchComments(posts._id);
+    console.log(comments);
+    if (comments.status === 200) {
+      setComment(comments.data);
     }
   };
 
@@ -67,7 +78,7 @@ export default function PostStatus({ currentUser }) {
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
           fetchingPosts={fetchingPosts}
-       />
+        />
       ) : null}
 
       <div>
