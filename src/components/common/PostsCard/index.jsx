@@ -104,7 +104,7 @@ export default function PostsCard({
         dangerouslySetInnerHTML={{ __html: posts.status }}
       ></p> */}
 
-      <LikeButton posts={posts} currentUser={currentUser} comments={comments}/>
+      <LikeButton posts={posts} currentUser={currentUser}  handleFetchPostComments={handleFetchPostComments} comments={comments}/>
 
       <Modal
         centered

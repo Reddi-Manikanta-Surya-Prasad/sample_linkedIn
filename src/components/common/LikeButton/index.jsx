@@ -5,11 +5,11 @@ import { Button } from "antd";
 import { fetchComments, likeaPost, updatePost } from "../../../utils/user/post";
 import "./index.scss";
 
-export default function LikeButton({ posts, currentUser,comments }) {
+export default function LikeButton({ posts, currentUser,handleFetchPostComments,comments }) {
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [liked, setLiked] = useState(false);
-  const [comment, setComment] = useState([]);
-  // const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState("");
+
 
   const handleLike = async (posts_id) => {
     const liked = await likeaPost(posts_id);
@@ -30,9 +30,11 @@ export default function LikeButton({ posts, currentUser,comments }) {
 
     }
     const postComment=await createComments(posts._id,data);
-   console.log(postComment);
+
     if(postComment.status===201){
-      setComment(postComment.data.data)
+      console.log(postComment);
+      setComment("");
+      handleFetchPostComments();
     }
   }
 
