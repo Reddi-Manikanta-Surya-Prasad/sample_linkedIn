@@ -8,31 +8,25 @@ import { timeStampConversionToDateAndTime } from "../../../helpers/timeStampConv
 import "./index.scss";
 import { fetchComments } from "../../../utils/user/post";
 
-export default function PostsCard({
-  posts,
-  currentUser,
-}) {
+export default function PostsCard({ posts, currentUser }) {
   let navigate = useNavigate();
 
   const [allUsers, setAllUsers] = useState([]);
   const [imageModal, setImageModal] = useState(false);
-  const[comments,setComments]=useState([])
-
-  // useEffect(() => {
-  //   console.log(posts);
-  //   return;
-  // }, []);
-  // console.log(posts, currentUser);
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     handleFetchPostComments();
-  });
+  }, []);
 
-  const handleFetchPostComments = async () => {
-    const comments = await fetchComments(posts._id);
-    console.log(comments);
-    if (comments.status === 200) {
-      setComments(comments.data.data);
+  const handleFetchPostComments = () => {
+    if (posts.commentCount > 0) {
+      setTimeout(async () => {
+        const comments = await fetchComments(posts._id);
+        if (comments.status === 200) {
+          setComments(comments.data.data);
+        }
+      }, 500);
     }
   };
 
@@ -104,7 +98,11 @@ export default function PostsCard({
         dangerouslySetInnerHTML={{ __html: posts.status }}
       ></p> */}
 
-      <LikeButton posts={posts} currentUser={currentUser}  handleFetchPostComments={handleFetchPostComments} comments={comments}/>
+      <LikeButton
+        posts={posts}
+        handleFetchPostComments={handleFetchPostComments}
+        comments={comments}
+      />
 
       <Modal
         centered

@@ -1,42 +1,46 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { AiOutlineHeart, AiFillHeart, AiOutlineComment } from "react-icons/ai";
 import { BsFillHandThumbsUpFill, BsHandThumbsUp } from "react-icons/bs";
-import { Button } from "antd";
-import { fetchComments, likeaPost, updatePost } from "../../../utils/user/post";
+import { Button, Col, Form, Input, Row } from "antd";
+import {
+  createComments,
+  fetchComments,
+  likeaPost,
+  updatePost,
+} from "../../../utils/user/post";
 import "./index.scss";
+import { toast } from "react-toastify";
 
-export default function LikeButton({ posts, currentUser,handleFetchPostComments,comments }) {
+export default function LikeButton({
+  posts,
+  handleFetchPostComments,
+  comments,
+}) {
+  const [commentForm] = Form.useForm();
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [liked, setLiked] = useState(false);
-  const [comment, setComment] = useState("");
-
 
   const handleLike = async (posts_id) => {
     const liked = await likeaPost(posts_id);
     if (liked.status === 201) {
-      // console.log(liked);
       setLiked(true);
-      // const data = {
-      //   ...posts,
-      //   isLiked: true,
-      // };
-      // const updatedPost = await updatePost(data);
-      // console.log(updatedPost);
     }
   };
-  const createComments=async()=>{
-    const data={
-      content:comment,
 
+  const createComment = async (values) => {
+    console.log(values);
+    console.log(commentForm.getFieldsValue());
+    return;
+    if (values.content !== "") {
+      const data = {
+        content: values.content,
+      };
+      const postComment = await createComments(posts._id, data);
+      if (postComment.status === 200) {
+        handleFetchPostComments();
+      }
     }
-    const postComment=await createComments(posts._id,data);
-
-    if(postComment.status===201){
-      console.log(postComment);
-      setComment("");
-      handleFetchPostComments();
-    }
-  }
+  };
 
   return (
     <div className="like-container">
@@ -52,11 +56,7 @@ export default function LikeButton({ posts, currentUser,handleFetchPostComments,
           {posts.isLiked === true ? (
             <BsFillHandThumbsUpFill size={30} color="#0a66c2" />
           ) : (
-            <Button
-              type=""
-              // onClick={handleUpdatePost}
-               onClick={() => handleLike(posts._id)}
-            >
+            <Button type="" onClick={() => handleLike(posts._id)}>
               <span
                 // className={liked ? "blue" : "black"}
                 style={{ fontSize: "25px" }}
@@ -83,20 +83,31 @@ export default function LikeButton({ posts, currentUser,handleFetchPostComments,
       </div>
       {showCommentBox ? (
         <>
-          <input
-            onChange={(e)=>setComment(e.target.value)}
-            placeholder="Add a Comment"
-            className="comment-input"
-            name="comment"
-             value={comment}
-            
-          />
-          <button
-            className="add-comment-btn"
-             onClick={createComments}
-          >
-            Add Comment
-          </button>
+          <Form form={commentForm} onFinish={createComment}>
+            <Row gutter={24}>
+              <Col xs={24} sm={24} md={12} xl={12} lg={12} xxl={12}>
+                <Form.Item
+                  // name="content"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please write something to create post!",
+                    },
+                  ]}
+                >
+                  <Input name={"content"} placeholder="Add a Comment" />
+                  {/* <input
+                    placeholder="Add a Comment"
+                    className="comment-input"
+                  /> */}
+                </Form.Item>
+                <Button type="" htmlType="submit" className="add-comment-btn">
+                  Add Comment
+                </Button>
+              </Col>
+              <Col xs={24} sm={24} md={12} xl={12} lg={12} xxl={12}></Col>
+            </Row>
+          </Form>
 
           {comments.length > 0 ? (
             comments.map((comment) => {
