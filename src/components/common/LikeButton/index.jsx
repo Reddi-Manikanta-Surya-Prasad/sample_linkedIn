@@ -5,25 +5,36 @@ import { Button } from "antd";
 import { fetchComments, likeaPost, updatePost } from "../../../utils/user/post";
 import "./index.scss";
 
-export default function LikeButton({ posts, currentUser }) {
+export default function LikeButton({ posts, currentUser,comments }) {
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [liked, setLiked] = useState(false);
-  const [comment, setComment] = useState("");
-  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState([]);
+  // const [comments, setComments] = useState([]);
 
-  const handleLike = async (post_id) => {
-    const liked = await likeaPost(post_id);
+  const handleLike = async (posts_id) => {
+    const liked = await likeaPost(posts_id);
     if (liked.status === 201) {
       // console.log(liked);
-      // setLiked(true);
-      const data = {
-        ...posts,
-        isLiked: true,
-      };
-      const updatedPost = await updatePost(data);
-      console.log(updatedPost);
+      setLiked(true);
+      // const data = {
+      //   ...posts,
+      //   isLiked: true,
+      // };
+      // const updatedPost = await updatePost(data);
+      // console.log(updatedPost);
     }
   };
+  const createComments=async()=>{
+    const data={
+      content:comment,
+
+    }
+    const postComment=await createComments(posts._id,data);
+   console.log(postComment);
+    if(postComment.status===201){
+      setComment(postComment.data.data)
+    }
+  }
 
   return (
     <div className="like-container">
@@ -42,7 +53,7 @@ export default function LikeButton({ posts, currentUser }) {
             <Button
               type=""
               // onClick={handleUpdatePost}
-              // onClick={() => handleLike(posts._id)}
+               onClick={() => handleLike(posts._id)}
             >
               <span
                 // className={liked ? "blue" : "black"}
@@ -71,15 +82,16 @@ export default function LikeButton({ posts, currentUser }) {
       {showCommentBox ? (
         <>
           <input
-            // onChange={getComment}
+            onChange={(e)=>setComment(e.target.value)}
             placeholder="Add a Comment"
             className="comment-input"
             name="comment"
-            value={comment}
+             value={comment}
+            
           />
           <button
             className="add-comment-btn"
-            // onClick={addComment}
+             onClick={createComments}
           >
             Add Comment
           </button>
@@ -88,10 +100,10 @@ export default function LikeButton({ posts, currentUser }) {
             comments.map((comment) => {
               return (
                 <div className="all-comments">
-                  <p className="name">{comment.name}</p>
-                  <p className="comment">{comment.comment}</p>
+                  {/* <p className="name">{comment.}</p> */}
+                  <p className="comment">{comment.content}</p>
 
-                  <p className="timestamp">{comment.timeStamp}</p>
+                  <p className="timestamp">{comment.createdAt}</p>
                   {/* 
                   <p>•</p>
                    */}

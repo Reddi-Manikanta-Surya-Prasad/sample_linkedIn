@@ -6,22 +6,35 @@ import LikeButton from "../LikeButton";
 import Carousel from "../Carousel";
 import { timeStampConversionToDateAndTime } from "../../../helpers/timeStampConversion";
 import "./index.scss";
+import { fetchComments } from "../../../utils/user/post";
 
 export default function PostsCard({
   posts,
-
   currentUser,
 }) {
   let navigate = useNavigate();
 
   const [allUsers, setAllUsers] = useState([]);
   const [imageModal, setImageModal] = useState(false);
+  const[comments,setComments]=useState([])
 
   // useEffect(() => {
   //   console.log(posts);
   //   return;
   // }, []);
   // console.log(posts, currentUser);
+
+  useEffect(() => {
+    handleFetchPostComments();
+  });
+
+  const handleFetchPostComments = async () => {
+    const comments = await fetchComments(posts._id);
+    console.log(comments);
+    if (comments.status === 200) {
+      setComments(comments.data.data);
+    }
+  };
 
   return (
     <div className="posts-card" key={posts._id}>
@@ -91,7 +104,7 @@ export default function PostsCard({
         dangerouslySetInnerHTML={{ __html: posts.status }}
       ></p> */}
 
-      <LikeButton posts={posts} currentUser={currentUser} />
+      <LikeButton posts={posts} currentUser={currentUser} comments={comments}/>
 
       <Modal
         centered

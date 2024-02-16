@@ -92,16 +92,16 @@ export const fetchComments = async (post_id) => {
     return error;
   }
 };
-export const createComments = async () => {
+export const createComments = async (post_id,body) => {
   const url =
-    "https://academics.newtonschool.co/api/v1/linkedin/comment/:postId";
+    `https://academics.newtonschool.co/api/v1/linkedin/comment/${post_id}`;
 
   const headers = {
     Authorization: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
-    const createComments = await ReusableAxios(url, "post", headers);
+    const createComments = await ReusableAxios(url, "post", headers,body);
     return createComments;
   } catch (error) {
     console.log(error);

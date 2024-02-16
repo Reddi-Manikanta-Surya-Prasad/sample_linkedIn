@@ -5,7 +5,7 @@ import ModalComponent from "../Modal";
 import { getUniqueID } from "../../../helpers/getUniqueId";
 import PostsCard from "../PostsCard";
 import "./index.scss";
-import { fetchPost } from "../../../utils/user/post";
+import { fetchComments, fetchPost } from "../../../utils/user/post";
 
 export default function PostStatus({ currentUser }) {
   const [modalOpen, setModalOpen] = useState(false);
@@ -27,17 +27,7 @@ export default function PostStatus({ currentUser }) {
     }
   };
 
-  useEffect(() => {
-    handleFetchPostComments();
-  });
-
-  const handleFetchPostComments = async () => {
-    const comments = await fetchComments(posts._id);
-    console.log(comments);
-    if (comments.status === 200) {
-      setComment(comments.data);
-    }
-  };
+ 
 
   return (
     <div className="post-status-main">
