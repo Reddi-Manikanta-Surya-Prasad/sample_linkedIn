@@ -108,9 +108,9 @@ export const createComments = async (post_id,body) => {
     return error;
   }
 };
-export const deleteComments = async () => {
+export const deleteComments = async (comment_id) => {
   const url =
-    "https://academics.newtonschool.co/api/v1/linkedin/comment/:commentId";
+    `https://academics.newtonschool.co/api/v1/linkedin/comment/${comment_id}`;
 
   const headers = {
     Authorization: `Bearer ${tokenn["token"]}`,

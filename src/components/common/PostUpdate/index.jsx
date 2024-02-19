@@ -41,6 +41,7 @@ export default function PostStatus({ currentUser }) {
           alt="imageLink"
         />
         <p className="name">
+          {console.log(currentUser)}
           {currentUser?.data?.name ? currentUser?.data?.name : "Default User"}
         </p>
         {/* <p className="headline">{currentUser?.data.headline}</p> */}

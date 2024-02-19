@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { AiOutlineHeart, AiFillHeart, AiOutlineComment } from "react-icons/ai";
-import { BsFillHandThumbsUpFill, BsHandThumbsUp } from "react-icons/bs";
+import { BsFillHandThumbsUpFill, BsHandThumbsUp, BsTrash } from "react-icons/bs";
 import { Button, Col, Form, Input, Row } from "antd";
 import {
   createComments,
+  deleteComments,
   fetchComments,
   likeaPost,
   updatePost,
@@ -20,17 +21,19 @@ export default function LikeButton({
   const [showCommentBox, setShowCommentBox] = useState(false);
   const [liked, setLiked] = useState(false);
 
-  const handleLike = async (posts_id) => {
-    const liked = await likeaPost(posts_id);
+  const handleLike = async () => {
+    const liked = await likeaPost(posts._id);
+    
     if (liked.status === 201) {
+      console.log(liked);
       setLiked(true);
     }
   };
 
   const createComment = async (values) => {
     console.log(values);
-    console.log(commentForm.getFieldsValue());
-    return;
+    console.log(commentForm.getFieldsValue(true));
+    return; 
     if (values.content !== "") {
       const data = {
         content: values.content,
@@ -41,6 +44,13 @@ export default function LikeButton({
       }
     }
   };
+
+  const deleteComment = async (comment_id) =>{
+    const deletedComment = await deleteComments(comment_id)
+   if(deletedComment.status === 204){
+    handleFetchPostComments()
+  } 
+}
 
   return (
     <div className="like-container">
@@ -56,7 +66,7 @@ export default function LikeButton({
           {posts.isLiked === true ? (
             <BsFillHandThumbsUpFill size={30} color="#0a66c2" />
           ) : (
-            <Button type="" onClick={() => handleLike(posts._id)}>
+            <Button type="" onClick={handleLike}>
               <span
                 // className={liked ? "blue" : "black"}
                 style={{ fontSize: "25px" }}
@@ -111,15 +121,18 @@ export default function LikeButton({
 
           {comments.length > 0 ? (
             comments.map((comment) => {
+              console.log(comment)
               return (
                 <div className="all-comments">
                   {/* <p className="name">{comment.}</p> */}
                   <p className="comment">{comment.content}</p>
 
                   <p className="timestamp">{comment.createdAt}</p>
-                  {/* 
-                  <p>•</p>
-                   */}
+                  <BsTrash
+              size={20}
+              className="action-icon"
+               onClick={() => deleteComment(comment._id)}
+            />
                 </div>
               );
             })

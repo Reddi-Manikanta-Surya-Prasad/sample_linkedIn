@@ -6,9 +6,6 @@ import Profile from "../Pages/Profile";
 export default function ProfileLayout() {
   const [currentUser, setCurrentUser] = useState({});
 
-  useMemo(() => {
-    getCurrentUser(setCurrentUser);
-  }, []);
   return (
     <div>
       <Topbar currentUser={currentUser} />

@@ -74,11 +74,11 @@ export default function PostsCard({ posts, currentUser }) {
             {timeStampConversionToDateAndTime(posts.createdAt)}
           </p>
           <p>{posts.content}</p>
-          <div>
+          {/* <div className="post-image"> */}
             {posts.images !== null && posts.images.length > 0 ? (
               <Carousel data={posts.images} />
             ) : null}
-          </div>
+          {/* </div>  */}
         </div>
       </div>
 
@@ -97,6 +97,7 @@ export default function PostsCard({ posts, currentUser }) {
         className="status"
         dangerouslySetInnerHTML={{ __html: posts.status }}
       ></p> */}
+       
 
       <LikeButton
         posts={posts}
