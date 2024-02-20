@@ -86,7 +86,7 @@ export default function Topbar({ currentUser }) {
           <AiOutlineSearch
             size={30}
             className="react-icon"
-            onClick={() => setIsSearch(true)}
+            onClick={setIsSearch}
           />
           <AiOutlineHome
             size={30}
