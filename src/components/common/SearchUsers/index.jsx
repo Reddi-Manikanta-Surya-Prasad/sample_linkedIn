@@ -30,14 +30,6 @@ export default function SearchUsers({ setIsSearch }) {
         placeholder="Search Users.."
         onChange={(event) => handleSearch(event.target.value)}
       />
-      {console.log(searchvalue.data)}
-      <div className="search-result">
-        {searchvalue.data &&
-          searchvalue.data.map((d, i) => {
-            <div key={i}>{d.title}</div>;
-          })}
-      </div>
-
       <AiOutlineCloseCircle
         className="close-icon"
         size={20}
@@ -46,6 +38,13 @@ export default function SearchUsers({ setIsSearch }) {
           handleSearch("");
         }}
       />
+      {console.log(searchvalue.data)}
+      <div className="search-result">
+        {searchvalue.data &&
+          searchvalue.data.map((d, i) => {
+            <div key={i}>{d.title}</div>;
+          })}
+      </div>
     </div>
   );
 }
