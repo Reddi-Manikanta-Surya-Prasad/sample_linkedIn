@@ -7,11 +7,14 @@
     margin-left: -30px;
     color: #707070;
   }
-  .search-result{
+  .search-result {
+    z-index: 9999;
+    height: 1000px;
+    color: #212121;
     width: 100%;
-    background-color: white; 
-    margin-top: 10px;
-    div{
+    background-color: white;
+    div {
+      color: #212121;
       width: 100%;
       padding: 10px 25px;
       background-color: white;
