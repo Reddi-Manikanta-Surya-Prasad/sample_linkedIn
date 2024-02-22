@@ -1,6 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { AiOutlineHeart, AiFillHeart, AiOutlineComment } from "react-icons/ai";
-import { BsFillHandThumbsUpFill, BsHandThumbsUp, BsTrash } from "react-icons/bs";
+import {
+  BsFillHandThumbsUpFill,
+  BsHandThumbsUp,
+  BsTrash,
+} from "react-icons/bs";
 import { Button, Col, Form, Input, Row } from "antd";
 import {
   createComments,
@@ -16,6 +20,7 @@ export default function LikeButton({
   posts,
   handleFetchPostComments,
   comments,
+  fetchingPosts,
 }) {
   const [commentForm] = Form.useForm();
   const [showCommentBox, setShowCommentBox] = useState(false);
@@ -23,54 +28,50 @@ export default function LikeButton({
 
   const handleLike = async () => {
     const liked = await likeaPost(posts._id);
-    
+
     if (liked.status === 201) {
       console.log(liked);
       setLiked(true);
     }
   };
 
-  const createComment = async (values) => {
-    console.log(values);
-    console.log(commentForm.getFieldsValue(true));
-    return; 
-    if (values.content !== "") {
+  const createComment = (values) => {
+    commentForm.validateFields().then(async (formValues) => {
       const data = {
         content: values.content,
       };
       const postComment = await createComments(posts._id, data);
       if (postComment.status === 200) {
+        fetchingPosts();
         handleFetchPostComments();
+        commentForm.resetFields();
       }
+    });
+  };
+
+  const deleteComment = async (comment_id) => {
+    const deletedComment = await deleteComments(comment_id);
+    if (deletedComment.status === 204) {
+      handleFetchPostComments();
     }
   };
 
-  const deleteComment = async (comment_id) =>{
-    const deletedComment = await deleteComments(comment_id)
-   if(deletedComment.status === 204){
-    handleFetchPostComments()
-  } 
-}
-
   return (
     <div className="like-container">
-      <p>{posts.likeCount} People Like this Post</p>
+      <p>
+        <span>{posts.likeCount} People Like this Post</span> &{" "}
+        <span>{posts.commentCount} People commented this Post</span>
+      </p>
       <div className="hr-line">
         <hr />
       </div>
       <div className="like-comment">
-        <div
-          className="likes-comment-inner"
-          // onClick={handleLike}
-        >
+        <div className="likes-comment-inner">
           {posts.isLiked === true ? (
             <BsFillHandThumbsUpFill size={30} color="#0a66c2" />
           ) : (
             <Button type="" onClick={handleLike}>
-              <span
-                // className={liked ? "blue" : "black"}
-                style={{ fontSize: "25px" }}
-              >
+              <span style={{ fontSize: "25px" }}>
                 <BsHandThumbsUp />
                 Like
               </span>
@@ -97,19 +98,15 @@ export default function LikeButton({
             <Row gutter={24}>
               <Col xs={24} sm={24} md={12} xl={12} lg={12} xxl={12}>
                 <Form.Item
-                  // name="content"
+                  name="content"
                   rules={[
                     {
                       required: true,
-                      message: "Please write something to create post!",
+                      message: "Please write something to submit comment!",
                     },
                   ]}
                 >
-                  <Input name={"content"} placeholder="Add a Comment" />
-                  {/* <input
-                    placeholder="Add a Comment"
-                    className="comment-input"
-                  /> */}
+                  <Input placeholder="Add a Comment" />
                 </Form.Item>
                 <Button type="" htmlType="submit" className="add-comment-btn">
                   Add Comment
@@ -119,26 +116,23 @@ export default function LikeButton({
             </Row>
           </Form>
 
-          {comments.length > 0 ? (
-            comments.map((comment) => {
-              console.log(comment)
-              return (
-                <div className="all-comments">
-                  {/* <p className="name">{comment.}</p> */}
-                  <p className="comment">{comment.content}</p>
+          {comments.length > 0
+            ? comments.map((comment) => {
+                return (
+                  <div className="all-comments">
+                    {/* <p className="name">{comment.}</p> */}
+                    <p className="comment">{comment.content}</p>
 
-                  <p className="timestamp">{comment.createdAt}</p>
-                  <BsTrash
-              size={20}
-              className="action-icon"
-               onClick={() => deleteComment(comment._id)}
-            />
-                </div>
-              );
-            })
-          ) : (
-            <></>
-          )}
+                    <p className="timestamp">{comment.createdAt}</p>
+                    <BsTrash
+                      size={20}
+                      className="action-icon"
+                      onClick={() => deleteComment(comment._id)}
+                    />
+                  </div>
+                );
+              })
+            : null}
         </>
       ) : (
         <></>

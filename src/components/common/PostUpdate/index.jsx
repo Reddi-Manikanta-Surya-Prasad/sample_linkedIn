@@ -27,8 +27,6 @@ export default function PostStatus({ currentUser }) {
     }
   };
 
- 
-
   return (
     <div className="post-status-main">
       <div className="user-details">
@@ -65,10 +63,11 @@ export default function PostStatus({ currentUser }) {
 
       {modalOpen ? (
         <ModalComponent
-          // setStatus={setStatus}
           modalOpen={modalOpen}
           setModalOpen={setModalOpen}
           fetchingPosts={fetchingPosts}
+          isEdit={false}
+          posts={null}
         />
       ) : null}
 
@@ -80,6 +79,7 @@ export default function PostStatus({ currentUser }) {
                 posts={posts}
                 currentUser={currentUser}
                 // getEditData={getEditData}
+                fetchingPosts={fetchingPosts}
               />
             </div>
           );

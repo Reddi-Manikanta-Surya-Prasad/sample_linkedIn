@@ -6,14 +6,17 @@ import LikeButton from "../LikeButton";
 import Carousel from "../Carousel";
 import { timeStampConversionToDateAndTime } from "../../../helpers/timeStampConversion";
 import "./index.scss";
-import { fetchComments } from "../../../utils/user/post";
+import { deletePost, fetchComments } from "../../../utils/user/post";
+import ModalComponent from "../Modal";
+import { toast } from "react-toastify";
 
-export default function PostsCard({ posts, currentUser }) {
+export default function PostsCard({ posts, currentUser, fetchingPosts }) {
   let navigate = useNavigate();
 
   const [allUsers, setAllUsers] = useState([]);
   const [imageModal, setImageModal] = useState(false);
   const [comments, setComments] = useState([]);
+  const [openEditPost, setOpenEditPost] = useState(false);
 
   useEffect(() => {
     handleFetchPostComments();
@@ -30,6 +33,16 @@ export default function PostsCard({ posts, currentUser }) {
     }
   };
 
+  const handleDeletePost = async () => {
+    const deletedPost = await deletePost(posts._id);
+    if (deletedPost.status === 204) {
+      toast.success("your post deleted successfully");
+      fetchingPosts();
+    } else {
+      toast.error("Something went wrong");
+    }
+  };
+
   return (
     <div className="posts-card" key={posts._id}>
       <div className="post-image-wrapper">
@@ -38,12 +51,12 @@ export default function PostsCard({ posts, currentUser }) {
             <BsPencil
               size={20}
               className="action-icon"
-              // onClick={() => getEditData(posts)}
+              onClick={() => setOpenEditPost(true)}
             />
             <BsTrash
               size={20}
               className="action-icon"
-              // onClick={() => deletePost(posts.id)}
+              onClick={handleDeletePost}
             />
           </div>
         ) : (
@@ -66,43 +79,22 @@ export default function PostsCard({ posts, currentUser }) {
           >
             {posts?.author?.name}
           </p>
-          <p className="headline">
-            Writer | Developer
-            {/* {allUsers.filter((user) => user.id === posts.userID)[0]?.headline} */}
-          </p>
+          <p className="headline">Writer | Developer</p>
           <p className="timestamp">
             {timeStampConversionToDateAndTime(posts.createdAt)}
           </p>
           <p>{posts.content}</p>
-          {/* <div className="post-image"> */}
-            {posts.images !== null && posts.images.length > 0 ? (
-              <Carousel data={posts.images} />
-            ) : null}
-          {/* </div>  */}
+          {posts.images !== null && posts.images.length > 0 ? (
+            <Carousel data={posts.images} />
+          ) : null}
         </div>
       </div>
-
-      {/* {posts.images.map((item) => {
-        console.log(item)
-            return (
-              <img
-                onClick={() => setImageModal(true)}
-                src={posts.images}
-                className="post-image"
-                alt="post-image"
-              />
-            );
-          })()} */}
-      {/* <p
-        className="status"
-        dangerouslySetInnerHTML={{ __html: posts.status }}
-      ></p> */}
-       
 
       <LikeButton
         posts={posts}
         handleFetchPostComments={handleFetchPostComments}
         comments={comments}
+        fetchingPosts={fetchingPosts}
       />
 
       <Modal
@@ -119,6 +111,15 @@ export default function PostsCard({ posts, currentUser }) {
           alt="post-image"
         />
       </Modal>
+      {openEditPost === true ? (
+        <ModalComponent
+          modalOpen={openEditPost}
+          setModalOpen={setOpenEditPost}
+          fetchingPosts={fetchingPosts}
+          isEdit={true}
+          posts={posts}
+        />
+      ) : null}
     </div>
   );
   // : (

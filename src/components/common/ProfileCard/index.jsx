@@ -27,7 +27,6 @@ export default function ProfileCard({ onEdit, currentUser }) {
       setCurrentImage
     );
   };
-  console.log(currentUser.id);
 
   useMemo(() => {
     if (location?.state?.id) {

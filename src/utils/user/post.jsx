@@ -18,23 +18,23 @@ export const createPost = async (body) => {
     return error;
   }
 };
-export const updatePost = async (body) => {
-  const url = `https://academics.newtonschool.co/api/v1/linkedin/post/${body._id}`;
+export const updatePost = async (data, id) => {
+  const url = `https://academics.newtonschool.co/api/v1/linkedin/post/${id}`;
 
   const headers = {
     Authorization: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
-    const updatePost = await ReusableAxios(url, "patch", headers, body);
+    const updatePost = await ReusableAxios(url, "patch", headers, data);
     return updatePost;
   } catch (error) {
     console.log(error);
     return error;
   }
 };
-export const deletePost = async () => {
-  const url = "https://academics.newtonschool.co/api/v1/linkedin/post/:postId";
+export const deletePost = async (id) => {
+  const url = "https://academics.newtonschool.co/api/v1/linkedin/post/" + id;
 
   const headers = {
     Authorization: `Bearer ${tokenn["token"]}`,
@@ -92,16 +92,15 @@ export const fetchComments = async (post_id) => {
     return error;
   }
 };
-export const createComments = async (post_id,body) => {
-  const url =
-    `https://academics.newtonschool.co/api/v1/linkedin/comment/${post_id}`;
+export const createComments = async (post_id, body) => {
+  const url = `https://academics.newtonschool.co/api/v1/linkedin/comment/${post_id}`;
 
   const headers = {
     Authorization: `Bearer ${tokenn["token"]}`,
     projectID: "i1dieevrt9g1",
   };
   try {
-    const createComments = await ReusableAxios(url, "post", headers,body);
+    const createComments = await ReusableAxios(url, "post", headers, body);
     return createComments;
   } catch (error) {
     console.log(error);
@@ -109,8 +108,7 @@ export const createComments = async (post_id,body) => {
   }
 };
 export const deleteComments = async (comment_id) => {
-  const url =
-    `https://academics.newtonschool.co/api/v1/linkedin/comment/${comment_id}`;
+  const url = `https://academics.newtonschool.co/api/v1/linkedin/comment/${comment_id}`;
 
   const headers = {
     Authorization: `Bearer ${tokenn["token"]}`,
