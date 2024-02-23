@@ -8,17 +8,24 @@
     color: #707070;
   }
   .search-result {
-    z-index: 9999;
-    height: 1000px;
-    color: #212121;
-    width: 100%;
+   
+    position: absolute;
+    top: 58px;
+    left: 120px;
     background-color: white;
-    div {
-      color: #212121;
-      width: 100%;
-      padding: 10px 25px;
-      background-color: white;
+    border: 0.5px solid lightgray;
+    width: 40%;
+    height: 300px;
+    overflow-y: scroll;
+    border-radius: 6px;
+    z-index: 1;
+    padding: 0px 10px;
+    p{
+      color: rgba(0, 0, 0, 0.466);
+    margin: 20px 10px 10px;
+    font-size: 14px;
     }
+  
   }
   input {
     width: 100%;

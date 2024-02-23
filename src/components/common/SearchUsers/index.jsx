@@ -39,11 +39,13 @@ export default function SearchUsers({ setIsSearch }) {
         }}
       />
       {console.log(searchvalue.data)}
+      {searchvalue &&
       <div className="search-result">
         {searchvalue?.data?.map((d, i) => {
           <p key={i}>{d.title}</p>;
         })}
       </div>
+      }
     </div>
   );
 }
